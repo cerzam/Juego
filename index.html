@@ -168,12 +168,9 @@ let currentScreen = 0;
 screenConfig.forEach((cfg, screenIdx) => {
   const btn = document.getElementById(cfg.escapeId);
   if (!btn) return;
-  let running = false;
   let attemptCount = 0;
 
   function runAway(e) {
-    if (running) return;
-    running = true;
     attemptCount++;
     document.getElementById(cfg.countId).textContent = attemptCount;
     document.getElementById(cfg.badgeId).classList.add('visible');
@@ -201,7 +198,7 @@ screenConfig.forEach((cfg, screenIdx) => {
       btn.classList.add('escaping');
     }
 
-    // Mover dentro de la tarjeta
+    // Mover dentro de la tarjeta inmediatamente
     const bw = btn.offsetWidth;
     const bh = btn.offsetHeight;
     const cardW = mainCard.offsetWidth;
@@ -214,13 +211,11 @@ screenConfig.forEach((cfg, screenIdx) => {
     const newX = pad + Math.random() * Math.max(0, maxX - pad);
     const newY = 80 + Math.random() * Math.max(0, maxY - 80);
 
-    // Pequeño delay para que la transición funcione
-    setTimeout(() => {
-      btn.style.left = newX + 'px';
-      btn.style.top  = newY + 'px';
-    }, 10);
+    // Mover inmediatamente
+    btn.style.left = newX + 'px';
+    btn.style.top  = newY + 'px';
 
-    setTimeout(() => { teaseMsg.classList.remove('show'); running = false; }, 900);
+    setTimeout(() => { teaseMsg.classList.remove('show'); }, 400);
   }
 
   btn.addEventListener('click', (e) => { e.preventDefault(); runAway(e); });
